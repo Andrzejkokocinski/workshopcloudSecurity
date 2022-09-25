@@ -1,0 +1,180 @@
+In the Sign in dialog box, copy, and paste in the Tenant Email account provided by your lab hosting provider and then select Next.
+
+In the Enter password dialog box, copy, and paste in the Tenant Password provided by your lab hosting provider and then select Sign in.
+
+Select + Create a Resource. Hint: If you were already in the Azure Portal, you might need to select Microsoft Azure from the top bar to go Home.
+
+In the Search services and marketplace box, enter Windows 10 and select Microsoft Window 10 from the drop-down list.
+
+Open the Plan drop-down list and select Windows 10 Enterprise, version 21H2. Select Start with a pre-set configuration to continue.
+
+Select Dev/Test and then select Continue to create a VM.
+
+Select Create new for Resource group, enter RG-AZWIN01 as Name and select OK.
+
+Note: This will be a new resource group for tracking purposes.
+
+In Virtual machine name, enter AZWIN01.
+
+Leave (US) East US as the default value for Region.
+
+Scroll down and review the Size for the virtual machine. If it appears empty, select See all sizes, choose one of the VM sizes under Most used by Azure users and click Select.
+
+Enter a Username of your choosing. Hint: Avoid reserved words like admin or root.
+
+Enter a Password of your choosing. Hint: It might be easier to re-use your tenant password. It can be found in the resources tab.
+
+Scroll down to the bottom of the page and select the checkbox below Licensing to confirm you have the eligible license.
+
+Select Review + create and wait until the validation is passed.
+
+Select Create. Wait for the Resource to be created, this may take a few minutes.
+
+Task 2: Connect an Azure Windows virtual machine
+In this task, you will connect an Azure Windows virtual machine to Microsoft Sentinel.
+
+In the Search bar of the Azure portal, type Sentinel, then select Microsoft Sentinel.
+
+Select your Microsoft Sentinel Workspace you created earlier.
+
+From the Data Connectors Tab, search for the Windows Security Events via AMA connector and select it from the list.
+
+Select Open connector page on the connector information blade.
+
+In the Configuration section, select the Create data collection rule.
+
+Enter AZWIN01DCR for Rule Name, then select Next: Resources.
+
+Select +Add resource(s)
+
+Expand rg-azwin01, then select AZWIN01.
+
+Select Apply.
+
+Select Next : Collect, then Next : Review + create
+
+Select Create
+
+Wait a few minutes and then select Refresh to see the new data collection rule listed.
+
+Task 3: Connect a non-Azure Windows Machine
+In this task, you will install Azure Arc and connect a non-Azure Windows virtual machine to Microsoft Sentinel.
+
+Important: The next steps are done in a different machine than the one you were previously working. Look for the Virtual Machine name references.
+
+Important: The Windows Security Events via AMA data connector requires Azure Arc for non-Azure devices.
+
+Login to WIN2 virtual machine as Admin with the password: Pa55w.rd.
+
+Open the Microsoft Edge browser.
+
+Open a browser and log into the Azure Portal at https://portal.azure.com with the credentials you have been using in the previous labs.
+
+In the Sign in dialog box, copy, and paste in the Tenant Email account provided by your lab hosting provider and then select Next.
+
+In the Enter password dialog box, copy and paste in the Tenant Password provided by your lab hosting provider and then select Sign in.
+
+In the Search bar of the Azure portal, type Arc, then select Azure Arc.
+
+In the navigation pane under Infrastructure select Servers
+
+Select + Add.
+
+Select Generate script in the "Add a single server" section.
+
+Select Next to get to the Resource details tab.
+
+Select the Resource group you created earlier. Hint: RG-Defender
+
+Note: If you haven't already created a resource group, open another tab and create the resource group and start over.
+
+Review the Server details and Connectivity method options. Keep the default values and select Next to get to the Tags tab.
+
+Select Next to get to the Download and run script tab.
+
+If the Register option is available, Select Register under the step 1. Register your subscription.
+
+Note: Wait at least three (3) minutes for processing.
+
+Scroll down and select the Download button. Hint: if your browser blocks the download, take action in the browser to allow it. In Edge Browser, select the ellipsis button (...) if needed and then select Keep.
+
+Right-click the Windows Start button and select Windows PowerShell (Admin).
+
+In case you get a UAC prompt, enter Administrator for "Username" and Passw0rd! for "Password", else skip to next step.
+
+Enter: cd C:\Users\Admin\Downloads
+
+Type Set-ExecutionPolicy -ExecutionPolicy Unrestricted and press enter.
+
+Enter A for Yes to All and press enter.
+
+Type .\OnboardingScript.ps1 and press enter.
+
+Important: If you get the error "The term .\OnboardingScript.ps1 is not recognized...", make sure you are doing the steps for Task 4 in the WINServer virtual machine. Other issue might be that the name of the file changed due to multiple downloads, search for ".\OnboardingScript (1).ps1" or other file numbers in the running directory.
+
+Enter R to Run once and press enter (this may take a couple minutes).
+
+Back in the Edge browser, open a new tab and type https://microsoft.com/devicelogin in the address bar.
+
+Go back to the Windows PowerShell window, copy the code that appears after "...enter the code" in the last line of the script to authenticate the agent.
+
+Go back to the Edge browser and paste it in the Code box and select Next. Select your tenant admin account and select Continue in the Are you trying to sign in to Azure Connected Machine Agent? window.
+
+Go back to the Windows PowerShell window and wait for the message "Successfully Onboarded Resource to Azure". Note: If you see a message line with a new authentication code, you need to repeat the last 3 steps again.
+
+Go back to the Azure portal page where you downloaded the script and select Close. Close the Add servers with Azure Arc to go back to the Azure Arc Servers page.
+
+Select Refresh until WIN2 name appears.
+
+Note: This could take a few minutes.
+
+In the Search bar of the Azure portal, type Sentinel, then select Microsoft Sentinel.
+
+Select your Microsoft Sentinel Workspace you created earlier.
+
+From the Data Connectors Tab, search for the Windows Security Events via AMA connector and select it from the list.
+
+Select Open connector page on the connector information blade.
+
+In the Configuration section, select the Create data collection rule.
+
+Enter WIN2 for Rule Name, then select Next: Resources.
+
+Select +Add resource(s)
+
+Expand rg-defender (or the Resource Group your created), then select WIN2.
+
+Select Apply.
+
+Select Next : Collect, then Next : Review + create
+
+Select Create
+
+Wait a few minutes and then select Refresh to see the new data collection rule listed.
+
+Task 4: Onboard Microsoft Defender for Endpoint Device
+In this task, you will on-board a device to Microsoft Defender for Endpoint.
+
+VERY IMPORTANT: If you completed the labs for "Module 2 - Exercise 1" of this course AND have been saving your Virtual Machines until now, you can skip this task. Otherwise, you need to onboard again the WIN1 machine to Defender for Endpoint.
+
+Important: The next steps are done in a different machine than the one you were previously working. Look for the Virtual Machine name references.
+
+Login to WIN1 virtual machine as Admin with the password: Pa55w.rd.
+
+In the Edge browser, go to the Microsoft 365 Defender portal at (https://security.microsoft.com) and login with the Tenant Email credentials if you are not currently in the portal.
+
+Select Settings from the left menu bar, then from the Settings page select Endpoints.
+
+Select Onboarding in the Device management section.
+
+Select Download onboarding package.
+
+Extract the downloaded .zip file.
+
+Run the Windows Command Prompt as Administrator and agree to any User Account Control prompts that appear.
+
+Run the WindowsDefenderATPLocalOnboardingScript.cmd file that you just extracted as administrator. Note: By default the file should be in the c:\users\admin\downloads directory. Answer Y to questions presented by the script.
+
+From the Onboarding page in the portal, copy the detection test script and run it in an open command window. You may have to open a new Administrator: Command Prompt window by typing CMD in the windows search bar and choose to Run as Administrator.
+
+In the Microsoft 365 Defender portal in the Endpoints area, select Device inventory. You should now see your device in the list.

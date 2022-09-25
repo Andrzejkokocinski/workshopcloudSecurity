@@ -1,0 +1,46 @@
+Connect AWS CloudTrail
+In Microsoft Sentinel, select Data connectors and then select the Amazon Web Services line in the table and in the AWS pane to the right, select Open connector page.
+
+Follow the instructions under Configuration using the following steps.
+
+In your Amazon Web Services console, under Security, Identity & Compliance, select IAM.
+
+Screenshot of Amazon Web Services console.
+
+Choose Roles and select Create role.
+
+Screenshot of A W S roles creation screen.
+
+Choose Another AWS account. In the Account ID field, enter the number 197857026523 (you can copy and paste it from here). This number is Microsoft Sentinel's service account ID for AWS. It tells AWS that the account using this role is a Microsoft Sentinel user.
+
+Screenshot of A W S role configuration screen.
+
+Select the Require External ID check box, and then enter the External ID (Workspace ID) that can be found in the AWS connector page in Microsoft Sentinel. This identifies your specific Microsoft Sentinel account to AWS. Then select Next: Permissions.
+
+Screenshot of continuation of A W S role configuration screen.
+
+Under Attach permissions policies, mark the check box next to AWSCloudTrailReadOnlyAccess. Then select Next: Tags.
+
+Screenshot of A W S apply permissions screen.
+
+Enter a Tag (optional). Then select Next: Review.
+
+Screenshot of tags screen.
+
+Enter a Role name and select Create role.
+
+Screenshot of role naming screen.
+
+In the Roles list, select the new role you created.
+
+Screenshot of roles list screen.
+
+Copy the Role ARN and paste it aside.
+
+Screenshot of copying role A R N.
+
+In the Amazon Web Services connector page in Microsoft Sentinel, paste the Role ARN into the Role to add field and select Add.
+
+Screenshot of adding an A W S role connection to the AWS connector.
+
+To use the relevant schema in Log Analytics for AWS events, search for AWSCloudTrail.

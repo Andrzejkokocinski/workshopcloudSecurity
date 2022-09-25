@@ -1,0 +1,91 @@
+In the Edge browser, navigate to the Azure portal at https://portal.azure.com.
+
+In the Sign in dialog box, copy and paste in the Tenant Email account provided by your lab hosting provider and then select Next.
+
+In the Enter password dialog box, copy and paste in the Tenant Password provided by your lab hosting provider and then select Sign in.
+
+In the Search bar of the Azure portal, type Sentinel, then select Microsoft Sentinel.
+
+Select + Create.
+
+Next, select the Log Analytics workspace you created earlier, for example uniquenameDefender and select Add. The activation could take a few minutes.
+
+Note: If you do not see a Log Analytics workspace here, please refer to Module 3, Exercise 1, Task 2 to create one.
+
+Navigate around the newly created Microsoft Sentinel workspace to become familiar with the user interface options.
+
+Task 2: Create a Watchlist
+In this task, you will create a watchlist in Microsoft Sentinel.
+
+In the search box at the bottom of the Windows 10 screen, enter Notepad. Select Notepad from the results.
+
+Type Hostname then enter for a new line.
+
+From row 2 of the notepad, copy the following hostnames, each one in a different line:
+
+Host1
+Host2
+Host3
+Host4
+Host5
+From the menu select, File - Save As, Name the file HighValue.csv, change the file type to All files(.) and select Save. Hint: The file can be saved in the Documents folder.
+
+Close Notepad.
+
+In Microsoft Sentinel, select the Watchlist option under the Configuration area.
+
+Select + Add new from the command bar.
+
+In the Watchlist wizard, enter the following:
+
+General setting	Value
+Name	HighValueHosts
+Description	High Value Hosts
+Watchlist alias	HighValueHosts
+Select, Next: Source >.
+
+Select Browse for files under Upload file and browse for the HighValue.csv file you just created.
+
+In the SearchKey field select Hostname.
+
+Select Next: Review and Create >.
+
+Review the settings you entered and select Create.
+
+The screen returns to the Watchlist page.
+
+Select the HighValueHosts watchlist and on the right tab, select View in logs.
+
+Important: It could take some time for the watchlist to appear. Please continue to with the following task and run this command on the next lab.
+
+Note: You can now use the _GetWatchlist('HighValueHosts') in your own KQL statements to access the list. The column to reference would be Hostname.
+
+Close the Logs window by selecting the 'x' in the top-right and select OK to discard the unsaved edits.
+
+Task 3: Create a Threat Indicator
+In this task, you will create an indicator in Microsoft Sentinel.
+
+In Microsoft Sentinel, select the Threat intelligence option in the Threat management area.
+
+Select + Add New from the command bar.
+
+Review the different indicator types available in the Types dropdown. Select the domain-name. Enter your initials in the Domain box. An example would be fmg.com.
+
+For the Threat types, select malicious-activity.
+
+For the Name, enter the same value used for the Domain. An example would be fmg.com.
+
+Set the Valid from field to today's date.
+
+Select Apply.
+
+Select the Logs option under the General area. You might want to disable the "Always show queries" option and close the Queries window to run the KQL statements.
+
+Run the following KQL statement.
+
+ThreatIntelligenceIndicator
+Note: It could take a couple of minutes for the indicator to appear.
+
+Scroll the results to the right to see the DomainName column. You can also run the following KQL statement to just see the DomainName column.
+
+ThreatIntelligenceIndicator | project DomainName
